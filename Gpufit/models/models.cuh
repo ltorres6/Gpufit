@@ -9,7 +9,8 @@
 #include "cauchy_2d_elliptic.cuh"
 #include "fletcher_powell_helix.cuh"
 #include "brown_dennis.cuh"
-
+#include "gamma_1d.cuh"
+#
 __device__ void calculate_model(
     ModelID const model_id,
     REAL const * parameters,
@@ -49,6 +50,9 @@ __device__ void calculate_model(
     case BROWN_DENNIS:
         calculate_brown_dennis(parameters, n_fits, n_points, value, derivative, point_index, fit_index, chunk_index, user_info, user_info_size);
         break;
+    case GAMMA_VARIATE:
+        calculate_gamma_variate1d(parameters, n_fits, n_points, value, derivative, point_index, fit_index, chunk_index, user_info, user_info_size);
+        break; 
     default:
         break;
     }
@@ -64,8 +68,9 @@ void configure_model(ModelID const model_id, int & n_parameters, int & n_dimensi
     case GAUSS_2D_ROTATED:      n_parameters = 7; n_dimensions = 2; break;
     case CAUCHY_2D_ELLIPTIC:    n_parameters = 6; n_dimensions = 2; break;
     case LINEAR_1D:             n_parameters = 2; n_dimensions = 1; break;
-    case FLETCHER_POWELL_HELIX:       n_parameters = 3; n_dimensions = 1; break;
+    case FLETCHER_POWELL_HELIX: n_parameters = 3; n_dimensions = 1; break;
     case BROWN_DENNIS:          n_parameters = 4; n_dimensions = 1; break;
+    case GAMMA_VARIATE:         n_parameters = 5; n_dimensions = 1; break;
     default:                                                        break;
     }
 }

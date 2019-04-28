@@ -120,7 +120,7 @@ __device__ void calculate_gamma_variate1d(
 
     REAL * current_derivatives = derivative + point_index;
     current_derivatives[0 * n_points] = exp(parameters[1] * ((parameters[3] - x)/parameters[2] + 1)) * pow(((x - parameters[3])/parameters[2]), parameters[1]);
-    current_derivatives[1 * n_points] = (paramaters[0] * exp(parameters[1] * ((parameters[3] - x)/parameters[2] + 1)) * pow(((x - a3)/a2), parameters[1]) * 
+    current_derivatives[1 * n_points] = (parameters[0] * exp(parameters[1] * ((parameters[3] - x)/parameters[2] + 1)) * pow(((x - parameters[3])/parameters[2]), parameters[1]) * 
 	    (parameters[2] * (log(-(parameters[3] - x)/parameters[2]) + 1) + parameters[3] - x))/parameters[2];
     current_derivatives[2 * n_points] = -(parameters[0] * parameters[1] * (parameters[2] + parameters[3] - x) * exp(parameters[1] * (1 - (x - parameters[3])/parameters[2])) * 
 	    pow(((x - parameters[3])/parameters[2]),parameters[1]))/pow(parameters[2],2);

@@ -118,19 +118,19 @@ __device__ void calculate_gamma_variate(
 
     //value
 
-    if( x - p[3] <= 0 )
+    if( x - p[3] <= 0.0 )
 	x = p[3];
 
-    //Constrain denominator in tprime to be positive.
+    //TTP relative to TOA.
     float p2 = p[2] + p[3];
 
     //Calculate t prime;
-    float s0= (p2 - p[3]);
+    float s0= (p2 - p[3])+0.000001;
     float tprime = (x-p[3])/s0;
 
     // log(x): x must be > 0; 
     value[point_index] = p[0] * pow(tprime, p[1]) * exp(p[1] * (1-tprime)) + p[4];
-
+    printf("Value %.10f", value[point_index]);
     // derivatives
 
     REAL * current_derivatives = derivative + point_index;

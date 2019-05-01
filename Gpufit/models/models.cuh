@@ -9,7 +9,7 @@
 #include "cauchy_2d_elliptic.cuh"
 #include "fletcher_powell_helix.cuh"
 #include "brown_dennis.cuh"
-#include "gamma_1d.cuh"
+#include "gamma_variate.cuh"
 #
 __device__ void calculate_model(
     ModelID const model_id,
@@ -51,7 +51,7 @@ __device__ void calculate_model(
         calculate_brown_dennis(parameters, n_fits, n_points, value, derivative, point_index, fit_index, chunk_index, user_info, user_info_size);
         break;
     case GAMMA_VARIATE:
-        calculate_gamma_variate1d(parameters, n_fits, n_points, value, derivative, point_index, fit_index, chunk_index, user_info, user_info_size);
+        calculate_gamma_variate(parameters, n_fits, n_points, value, derivative, point_index, fit_index, chunk_index, user_info, user_info_size);
         break; 
     default:
         break;

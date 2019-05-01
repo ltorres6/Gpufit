@@ -6,7 +6,7 @@ package com.github.gpufit;
  */
 public enum Model {
 
-    GAUSS_1D(0, 4), GAUSS_2D(1, 5), GAUSS_2D_ELLIPTIC(2, 6), GAUSS_2D_ROTATED(3, 7), CAUCHY_2D_ELLIPTIC(4, 6), LINEAR_1D(5, 2);
+    GAUSS_1D(0, 4), GAUSS_2D(1, 5), GAUSS_2D_ELLIPTIC(2, 6), GAUSS_2D_ROTATED(3, 7), CAUCHY_2D_ELLIPTIC(4, 6), LINEAR_1D(5, 2), GAMMA_VARIATE(8,5); 
 
     public final int id, numberParameters;
 

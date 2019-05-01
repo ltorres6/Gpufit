@@ -112,7 +112,7 @@ __device__ void calculate_gamma_variate1d(
     float tmax_constrained = parameters[3] + parameters[2];
     
     //Calculate t prime;
-    float tprime = (x-parameters[3])/(tmax_constrained - parameters[3]);
+    float tprime = (x-parameters[3])/(0.0000001+(tmax_constrained - parameters[3]));
 
     value[point_index] = parameters[0] * pow(tprime, parameters[1]) * exp(parameters[1] * (1-tprime)) + parameters[4];
 

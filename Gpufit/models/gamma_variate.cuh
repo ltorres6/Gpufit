@@ -122,10 +122,10 @@ __device__ void calculate_gamma_variate(
 	x = p[3];
 
     //Constrain denominator in tprime to be positive.
-    float p[2] += p[3];
+    float p2 = p[2] + p[3];
 
     //Calculate t prime;
-    float s0= (p[2] - p[3]);
+    float s0= (p2 - p[3]);
     float tprime = (x-p[3])/s0;
 
     // log(x): x must be > 0; 
@@ -135,16 +135,16 @@ __device__ void calculate_gamma_variate(
 
     REAL * current_derivatives = derivative + point_index;
     // wrt p[0]
-    current_derivatives[0 * n_points] =  pow(tprime, p[1]) * exp((p[1] *(p[2] - x))/s0);
+    current_derivatives[0 * n_points] =  pow(tprime, p[1]) * exp((p[1] *(p2 - x))/s0);
 
     // wrt p[1]
     current_derivatives[1 * n_points] = p[0] * exp(p[1] * (1 - tprime)) * pow(tprime, p[1]) * (1 + log(tprime) - tprime);
 
-    //wrt p[2]
+    //wrt p2
     current_derivatives[2 * n_points] = p[0] * p[1] * (p[3] - x) * exp(p[1] * (1 - tprime)) * (pow(tprime, p[1]-1)-pow(tprime, p[1]))/pow(s0, 2);
 
     //wrt p[3]
-    current_derivatives[3 * n_points] = p[0] * p[1] * (p[2] - x) * exp(p[1] * (1 - tprime))  * (pow(tprime, p[1])-pow(tprime, p[1]-1))/pow(s0, 2);
+    current_derivatives[3 * n_points] = p[0] * p[1] * (p2 - x) * exp(p[1] * (1 - tprime))  * (pow(tprime, p[1])-pow(tprime, p[1]-1))/pow(s0, 2);
 
     // wrt p[4]
     current_derivatives[4 * n_points] = 1;

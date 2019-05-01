@@ -127,10 +127,12 @@ __device__ void calculate_gamma_variate(
     //Calculate t prime;
     float s0= (p2 - p[3])+0.000001;
     float tprime = (x-p[3])/s0;
-
-    // log(x): x must be > 0; 
+    
     value[point_index] = p[0] * pow(tprime, p[1]) * exp(p[1] * (1-tprime)) + p[4];
-    printf("Value %.10f", value[point_index]);
+    printf("p[0]: %.10f, p[1]: %.10f, p[2]: %.10f, p[3]: %.10f, p[4]: %.10f, Fcn Value: %.10f\n",p[0], p[1], p[2], p[3], p[4], value[point_index]);
+    printf("x: %.10f, tprime: %.10f, s0: %.10f\n",x, tprime, s0);
+
+
     // derivatives
 
     REAL * current_derivatives = derivative + point_index;

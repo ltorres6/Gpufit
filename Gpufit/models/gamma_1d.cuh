@@ -112,7 +112,7 @@ __device__ void calculate_gamma_variate1d(
     //float tmax_constrained = parameters[3] + parameters[2];
     
     //Calculate t prime;
-    float tprime = (x-parameters[3])/(parameters[2] - parameters[3]));
+    float tprime = (x-parameters[3])/(parameters[2] - parameters[3]);
 
     value[point_index] = parameters[0] * pow(tprime, parameters[1]) * exp(parameters[1] * (1-tprime)) + parameters[4];
 
@@ -120,16 +120,16 @@ __device__ void calculate_gamma_variate1d(
 
     REAL * current_derivatives = derivative + point_index;
     // wrt p[0]
-    current_derivatives[0 * n_points] =  pow(tprime, parameters[1]) * exp((parameters[1] *(parameter[2] - x))/(parameter[2]-parameter[3]));
+    current_derivatives[0 * n_points] =  pow(tprime, parameters[1]) * exp((parameters[1] *(parameters[2] - x))/(parameters[2]-parameters[3]));
     
     // wrt p[1]
     current_derivatives[1 * n_points] = parameters[0] * exp(parameters[1] * (1 - tprime)) * pow(tprime, parameters[1]) * (1 + log(tprime) - tprime);
     
     //wrt p[2]
-    current_derivatives[2 * n_points] = paramters[0] * parameters[1] * (parameters[3] - x) * exp(parameters[1] * (1 - tprime)) * (pow(tprime, parameters[1]-1)-pow(tprime, parameters[1]))/pow(parameters[2] - parameters[3], 2);
+    current_derivatives[2 * n_points] = parameters[0] * parameters[1] * (parameters[3] - x) * exp(parameters[1] * (1 - tprime)) * (pow(tprime, parameters[1]-1)-pow(tprime, parameters[1]))/pow(parameters[2] - parameters[3], 2);
 
     //wrt p[3]
-    current_derivatives[3 * n_points] = paramters[0] * parameters[1] * (parameters[2] - x) * exp(parameters[1] * (1 - tprime))  * (pow(tprime, parameters[1])-pow(tprime, parameters[1]-1))/pow(parameters[2] - parameters[3], 2);
+    current_derivatives[3 * n_points] = parameters[0] * parameters[1] * (parameters[2] - x) * exp(parameters[1] * (1 - tprime))  * (pow(tprime, parameters[1])-pow(tprime, parameters[1]-1))/pow(parameters[2] - parameters[3], 2);
     
     // wrt p[4]
     current_derivatives[4 * n_points] = 1;

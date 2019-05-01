@@ -118,8 +118,8 @@ __device__ void calculate_gamma_variate(
 
     //value
 
-    //if( x - p[3] <= 0.0 )
-	//	x = p[3];
+    if( x - p[3] <= 0.0 )
+	x = p[3]+0.00001;
 
     //TTP relative to TOA.
     float p2 = p[2] + p[3];
@@ -127,11 +127,11 @@ __device__ void calculate_gamma_variate(
     //Calculate t prime;
     float s0= (p2 - p[3]);
     float tprime = (x-p[3])/s0;
-    
-   //printf("x: %.10f, p[2]: %.10f, p[3]: %.10f, p2: %.10f, s0: %.10f, tprime: %.10f\n",x, p[2], p[3], p2, s0, tprime);
-    
+
+    //printf("x: %.10f, p[2]: %.10f, p[3]: %.10f, p2: %.10f, s0: %.10f, tprime: %.10f\n",x, p[2], p[3], p2, s0, tprime);
+
     value[point_index] = p[0] * pow(tprime, p[1]) * exp(p[1] * (1-tprime)) + p[4];
-   //printf("p[0]: %.10f, p[1]: %.10f, p[2]: %.10f, p[3]: %.10f, p[4]: %.10f, Fcn Value: %.10f\n",p[0], p[1], p[2], p[3], p[4], value[point_index]);
+    //printf("p[0]: %.10f, p[1]: %.10f, p[2]: %.10f, p[3]: %.10f, p[4]: %.10f, Fcn Value: %.10f\n",p[0], p[1], p[2], p[3], p[4], value[point_index]);
 
 
     // derivatives

@@ -119,13 +119,13 @@ __device__ void calculate_gamma_variate1d(
     // derivatives
 
     REAL * current_derivatives = derivative + point_index;
-    current_derivatives[0 * n_points] = exp(parameters[1] * ((parameters[3] - x)/parameters[2] + 1)) * pow(((x - parameters[3])/parameters[2]), parameters[1]);
-    current_derivatives[1 * n_points] = (parameters[0] * exp(parameters[1] * ((parameters[3] - x)/parameters[2] + 1)) * pow(((x - parameters[3])/parameters[2]), parameters[1]) * 
-	    (parameters[2] * (log(-(parameters[3] - x)/parameters[2]) + 1) + parameters[3] - x))/parameters[2];
-    current_derivatives[2 * n_points] = -(parameters[0] * parameters[1] * (parameters[2] + parameters[3] - x) * exp(parameters[1] * (1 - (x - parameters[3])/parameters[2])) * 
-	    pow(((x - parameters[3])/parameters[2]),parameters[1]))/pow(parameters[2],2);
-    current_derivatives[3 * n_points] = (parameters[0] * parameters[1] * (parameters[2] + parameters[3] - x) * exp((parameters[1] * (parameters[2] + parameters[3] - x))/parameters[2]) * 
-	    pow(((x - parameters[3])/parameters[2]),parameters[1]))/(parameters[2] * (parameters[3] - x));
+    current_derivatives[0 * n_points] = exp(parameters[1] * ((parameters[3] - x)/(0.0000001+parameters[2]) + 1)) * pow(((x - parameters[3])/(0.0000001+parameters[2])), parameters[1]);
+    current_derivatives[1 * n_points] = (parameters[0] * exp(parameters[1] * ((parameters[3] - x)/(0.0000001+parameters[2]) + 1)) * pow(((x - parameters[3])/(0.0000001+parameters[2])), parameters[1]) * 
+	    (parameters[2] * (log(-(parameters[3] - x)/(0.0000001+parameters[2])) + 1) + parameters[3] - x))/(0.0000001+parameters[2]);
+    current_derivatives[2 * n_points] = -1*(parameters[0] * parameters[1] * (parameters[2] + parameters[3] - x) * exp(parameters[1] * (1 - (x - parameters[3])/(0.0000001+parameters[2]))) * 
+	    pow(((x - parameters[3])/(0.0000001+parameters[2])),parameters[1]))/(0.0000001+pow(parameters[2],2));
+    current_derivatives[3 * n_points] = (parameters[0] * parameters[1] * (parameters[2] + parameters[3] - x) * exp((parameters[1] * (parameters[2] + parameters[3] - x))/(0.0000001+parameters[2])) * 
+	    pow(((x - parameters[3])/(0.0000001+parameters[2])),parameters[1]))/(0.0000001+(parameters[2] * (parameters[3] - x)));
     current_derivatives[4 * n_points] = 1;
 }
 

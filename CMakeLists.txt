@@ -113,10 +113,6 @@ if( PYTHONINTERP_FOUND )
     add_launcher( ${target} "${PYTHON_EXECUTABLE}" "${arguments}" "${working_directory}" )
   endfunction()
 endif()
-find_package(PythonLibs 2.7)
-target_include_directories(Gpufit VERSION 1.1.0 PRIVATE ${PYTHON_INCLUDE_DIRS})
-target_link_libraries(Gpufit VERSION 1.1.0 ${PYTHON_LIBRARIES})
-
 
 
 # Documentation (Latex->PDF)

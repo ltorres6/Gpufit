@@ -152,11 +152,11 @@ __device__ void calculate_gamma_variate(
 	float p4 = p[4];
     */
     //TTP relative to TOA.
-    float p2 = p[2] + p[3];
+    float p2 = p[2] + p3;
 
     //Calculate t prime;
-    float s0= (p2- p[3])+1;
-    float tprime = (x-p[3])/s0;
+    float s0= (p2- p3);
+    float tprime = (x-p3)/s0;
 
     //printf("x: %.10f, p[2]: %.10f, p[3]: %.10f, p2: %.10f, s0: %.10f, tprime: %.10f\n",x, p[2], p[3], p2, s0, tprime);
 
@@ -174,7 +174,7 @@ __device__ void calculate_gamma_variate(
     current_derivatives[1 * n_points] = p[0] * exp(p[1] * (1 - tprime)) * pow(tprime, p[1]) * (1 + log(tprime) - tprime);
 
     //wrt p2
-    current_derivatives[2 * n_points] = p[0] * p[1] * (p[3] - x) * exp(p[1] * (1 - tprime)) * (pow(tprime, p[1]-1)-pow(tprime, p[1]))/pow(s0, 2);
+    current_derivatives[2 * n_points] = p[0] * p[1] * (p3 - x) * exp(p[1] * (1 - tprime)) * (pow(tprime, p[1]-1)-pow(tprime, p[1]))/pow(s0, 2);
 
     //wrt p[3]
     current_derivatives[3 * n_points] = p[0] * p[1] * (p[2] - x) * exp(p[1] * (1 - tprime))  * (pow(tprime, p[1])-pow(tprime, p[1]-1))/pow(s0, 2);

@@ -121,7 +121,7 @@ __device__ void calculate_gamma_variate(
     //Bounds
     if( x - p[3] <= 0.0 )
 	x = p[3]+0.0000000000001;
-    */
+    /*
 	if(p[0] > 400)
 	    float p0 = 400;
 	else
@@ -142,7 +142,7 @@ __device__ void calculate_gamma_variate(
 	float p4 = 10;
     else
 	float p4 = p[4];
-    /*
+    */
     //TTP relative to TOA.
     float p2 = p[2] + p[3];
 

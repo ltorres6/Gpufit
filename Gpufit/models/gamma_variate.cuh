@@ -121,10 +121,11 @@ __device__ void calculate_gamma_variate(
     //Bounds
     if( x - p[3] <= 0.0 )
 	x = p[3]+0.0000000000001;
-    if(p[0] > 400)
-	float p0 = 400;
-    else
-	float p0 = p[0];
+    */
+	if(p[0] > 400)
+	    float p0 = 400;
+	else
+	    float p0 = p[0];
     if(p[1] > 20)
 	float p1 = 20;
     else
@@ -137,21 +138,21 @@ __device__ void calculate_gamma_variate(
 	float p3 = 20;
     else
 	float p3 = p[3];
-    if(p4 > 10)
+    if(p[4] > 10)
 	float p4 = 10;
     else
 	float p4 = p[4];
-
+    /*
     //TTP relative to TOA.
-    float p2 = p2 + p3;
+    float p2 = p[2] + p[3];
 
     //Calculate t prime;
-    float s0= (p2 - p3)+0.00000001;
-    float tprime = (x-p3)/s0;
+    float s0= (p2- p[3])+0.00000001;
+    float tprime = (x-p[3])/s0;
 
     //printf("x: %.10f, p[2]: %.10f, p[3]: %.10f, p2: %.10f, s0: %.10f, tprime: %.10f\n",x, p[2], p[3], p2, s0, tprime);
 
-    value[point_index] = p0 * pow(tprime, p1) * exp(p1 * (1-tprime)) + p4;
+    value[point_index] = p[0] * pow(tprime, p[1]) * exp(p[1] * (1-tprime)) + p[4];
     //printf("p[0]: %.10f, p[1]: %.10f, p[2]: %.10f, p[3]: %.10f, p[4]: %.10f, Fcn Value: %.10f\n",p[0], p[1], p[2], p[3], p[4], value[point_index]);
 
 
@@ -159,19 +160,19 @@ __device__ void calculate_gamma_variate(
 
     REAL * current_derivatives = derivative + point_index;
     // wrt p[0]
-    current_derivatives[0 * n_points] =  pow(tprime, p1) * exp((p1 *(p2 - x))/s0);
+    current_derivatives[0 * n_points] =  pow(tprime, p[1]) * exp((p[1] *(p[2] - x))/s0);
 
     // wrt p[1]
-    current_derivatives[1 * n_points] = p0 * exp(p1 * (1 - tprime)) * pow(tprime, p1) * (1 + log(tprime) - tprime);
+    current_derivatives[1 * n_points] = p[0] * exp(p[1] * (1 - tprime)) * pow(tprime, p[1]) * (1 + log(tprime) - tprime);
 
     //wrt p2
-    current_derivatives[2 * n_points] = p0 * p1 * (p3 - x) * exp(p1 * (1 - tprime)) * (pow(tprime, p1-1)-pow(tprime, p1))/pow(s0, 2);
+    current_derivatives[2 * n_points] = p[0] * p[1] * (p[3] - x) * exp(p[1] * (1 - tprime)) * (pow(tprime, p[1]-1)-pow(tprime, p[1]))/pow(s0, 2);
 
     //wrt p[3]
-    current_derivatives[3 * n_points] = p0 * p1 * (p2 - x) * exp(p1 * (1 - tprime))  * (pow(tprime, p1)-pow(tprime, p1-1))/pow(s0, 2);
+    current_derivatives[3 * n_points] = p[0] * p[1] * (p[2] - x) * exp(p[1] * (1 - tprime))  * (pow(tprime, p[1])-pow(tprime, p[1]-1))/pow(s0, 2);
 
     // wrt p[4]
     current_derivatives[4 * n_points] = 1;
-}
+    }
 
 #endif

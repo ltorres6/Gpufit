@@ -118,9 +118,17 @@ __device__ void calculate_gamma_variate(
 
     //value
 
+    float p3;
+
     //Bounds
     if( x - p[3] <= 0.0 )
-	x = p[3]+0.0000000000001;
+	x = p[3]+1;
+    if( p[3] >= 20.0 )
+	p3 = 20;
+    else
+	p3 = p[3];
+
+
     /*
 	if(p[0] > 400)
 	    float p0 = 400;
@@ -147,7 +155,7 @@ __device__ void calculate_gamma_variate(
     float p2 = p[2] + p[3];
 
     //Calculate t prime;
-    float s0= (p2- p[3])+0.00000001;
+    float s0= (p2- p[3])+1;
     float tprime = (x-p[3])/s0;
 
     //printf("x: %.10f, p[2]: %.10f, p[3]: %.10f, p2: %.10f, s0: %.10f, tprime: %.10f\n",x, p[2], p[3], p2, s0, tprime);

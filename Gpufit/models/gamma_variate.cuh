@@ -136,7 +136,7 @@ __device__ void calculate_gamma_variate(
     if( x <= p[3] ){
 	//value
 	value[point_index] = p[4];
-	
+/*	
 	//derivatives
 	REAL * current_derivatives = derivative + point_index;
 	// wrt p[0]
@@ -153,7 +153,7 @@ __device__ void calculate_gamma_variate(
 
 	// wrt p[4]
 	current_derivatives[4 * n_points] = 1;
-
+*/
     }else{
 	//value
 	value[point_index] = p[0] * pow(tprime, p[1]) * exp(p[1] * (1-tprime)) + p[4];

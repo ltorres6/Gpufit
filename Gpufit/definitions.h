@@ -3,15 +3,15 @@
     #define GPUFIT_DEFINITIONS_H_INCLUDED
 
     // Precision
-    //#ifdef GPUFIT_DOUBLE
+    #ifdef GPUFIT_DOUBLE
         #define REAL double
         #define DECOMPOSE_LUP cublasDgetrfBatched
         #define SOLVE_LUP cublasDgetrsBatched
-    //#else
-	//#define REAL float
-        //#define DECOMPOSE_LUP cublasSgetrfBatched
-       // #define SOLVE_LUP cublasSgetrsBatched
-    //#endif // GPUFIT_DOUBLE
+    #else
+	#define REAL float
+        #define DECOMPOSE_LUP cublasSgetrfBatched
+        #define SOLVE_LUP cublasSgetrsBatched
+    #endif // GPUFIT_DOUBLE
 
 
     // Status

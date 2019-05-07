@@ -51,8 +51,8 @@ set( DEFAULT_CUDA_ARCH All )
 set( DEFAULT_USE_CUBLAS ON )
 
 # Set the default value for the precision
-set( DEFAULT_DOUBLE_PRECISION ON )
-add_definitions(-DGPUFIT_DOUBLE)
+set( DEFAULT_DOUBLE_PRECISION OFF )
+
 # Precision
 
 #set( DOUBLE_PRECISION ${DEFAULT_DOUBLE_PRECISION} )

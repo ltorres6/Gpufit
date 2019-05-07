@@ -105,77 +105,59 @@ __device__ void calculate_gamma_variate(
 	x = user_info_float[chunk_begin + fit_begin + point_index];
     }
 
-    /* Parameters
-     * parameters: An input vector of model parameters.
-     *             p[0]: peak(signal at tmax)
-     *             p[1]: alpha
-     *             p[2]: tmax
-     *             p[3]: time of arrival
-     *             p[4]: baseline
-     *   
-     */
     REAL const * p = parameters;
-
-    float p3;
+    // replace p2 and p3
+    REAL p0, p1, p2, p3, p4, s0, tprime;
+    
     // x has to be greater than time of arrival, zero otherwise.
-    if( x <= p[3] )
-	x = p[3]+0.0000001; //should this be zero?
+    if( x - p[3] <= 0.0 ){
+	//x = p[3]+0.0001; Not the best way...
+	
+	// Try setting parameters so that value evaluates to 0 and derivatives don't blow up.
+	p0 = 0; //peak
+	p1 = p[1]; //alpha
+	p2 = x; //Makes First derivative goes to 1.	
+	p3 = p[3]; //x; //toa
+	p4 = p[4]; //baseline
+	
+	s0= 1;
+	tprime = 1;
 
-    p3 = p[3];
-
-    //TTP is reparameterized relative to TOA.
-    float p2 = p[2] + p3;
+    } else if (x - p[3] > 0.0 ){
+	p0 = p[0];
+	p1 = p[1];
+	p2 = p[2] + p[3];
+	p3 = p[3];
+	p4 = p[4];
 
     //Calculate t prime;
-    float s0= (p2- p3);
-    float tprime = (x-p3)/s0;
-
-
-    //printf("x: %.10f, p[2]: %.10f, p[3]: %.10f, p2: %.10f, s0: %.10f, tprime: %.10f\n",x, p[2], p[3], p2, s0, tprime);
-    // If t is less than toa, value is baseline.
-    if( x <= p[3] ){
-	//value
-	value[point_index] = p[4];
-/*	
-	//derivatives
-	REAL * current_derivatives = derivative + point_index;
-	// wrt p[0]
-	current_derivatives[0 * n_points] = 0;
-
-	// wrt p[1]
-	current_derivatives[1 * n_points] = 0;
-
-	//wrt p2
-	current_derivatives[2 * n_points] = 0;
-
-	//wrt p[3]
-	current_derivatives[3 * n_points] = 0;
-
-	// wrt p[4]
-	current_derivatives[4 * n_points] = 1;
-*/
-    }else{
-	//value
-	value[point_index] = p[0] * pow(tprime, p[1]) * exp(p[1] * (1-tprime)) + p[4];
-	//printf("p[0]: %.10f, p[1]: %.10f, p[2]: %.10f, p[3]: %.10f, p[4]: %.10f, Fcn Value: %.10f\n",p[0], p[1], p[2], p[3], p[4], value[point_index]);
-
-	// derivatives
-	REAL * current_derivatives = derivative + point_index;
-	// wrt p[0]
-	current_derivatives[0 * n_points] =  pow(tprime, p[1]) * exp((p[1] *(p[2] - x))/s0);
-
-	// wrt p[1]
-	current_derivatives[1 * n_points] = p[0] * exp(p[1] * (1 - tprime)) * pow(tprime, p[1]) * (1 + log(tprime) - tprime);
-
-	//wrt p2
-	current_derivatives[2 * n_points] = p[0] * p[1] * (p3 - x) * exp(p[1] * (1 - tprime)) * (pow(tprime, p[1]-1)-pow(tprime, p[1]))/pow(s0, 2);
-
-	//wrt p[3]
-	current_derivatives[3 * n_points] = p[0] * p[1] * (p[2] - x) * exp(p[1] * (1 - tprime))  * (pow(tprime, p[1])-pow(tprime, p[1]-1))/pow(s0, 2);
-
-	// wrt p[4]
-	current_derivatives[4 * n_points] = 1;
-
+    s0= (p2 - p3);
+    tprime = (x-p3)/s0;
     }
+
+    //value
+    
+    value[point_index] = p0 * pow(tprime, p1) * exp(p1 * (1-tprime)) + p4;
+
+    // derivatives
+    REAL * current_derivatives = derivative + point_index;
+    // wrt p[0]
+    if( x - p[3] <= 0.0 )
+	current_derivatives[0 * n_points] = 0;
+    else
+	current_derivatives[0 * n_points] =  pow(tprime, p1) * exp(p1*(1-tprime));
+
+    // wrt p[1]
+    current_derivatives[1 * n_points] = p0 * exp(p1 * (1 - tprime)) * pow(tprime, p1) * (1 + log(tprime) - tprime);
+
+    //wrt p2
+    current_derivatives[2 * n_points] = p0 * p1 * (p3 - x) * exp(p1 * (1 - tprime)) * (pow(tprime, p1-1)-pow(tprime, p1))/pow(s0, 2);
+
+    //wrt p[3]
+    current_derivatives[3 * n_points] = p0 * p1 * (p2 - x) * exp(p1 * (1 - tprime))  * (pow(tprime, p1)-pow(tprime, p1-1))/pow(s0, 2);
+
+    // wrt p[4]
+    current_derivatives[4 * n_points] = 1;
+
 }
 #endif
